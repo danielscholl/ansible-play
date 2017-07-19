@@ -1,0 +1,16 @@
+---
+- name: Install Ansible Packages
+  become: yes
+  apt: pkg={{ item }} state=latest update_cache=yes
+  with_items:
+    - libssl-dev
+    - libffi-dev
+    - build-essential
+    - python-dev
+    - python-pip
+    - ansible
+
+- name: Setup Ansible
+  copy: src={{ item.src }} dest={{ item.dest }}
+  with_items:
+    - { src: 'ansible.cfg', dest: '~/ansible.cfg' }

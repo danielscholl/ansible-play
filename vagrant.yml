@@ -1,0 +1,4 @@
+---
+ip_address: 192.168.33.66
+vm_name: jumpserver
+server_domain: jumpserver.dev
