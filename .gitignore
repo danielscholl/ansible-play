@@ -2,3 +2,4 @@
 ansible.cfg
 ansible/hosts/
 ubuntu-xenial*
+ansible/*.retry
