@@ -204,26 +204,6 @@
           "storageAccountEndPoint": "https://core.windows.net"
         }
       }
-    },
-    {
-      "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmName'), copyIndex(), '/Docker')]",
-      "apiVersion": "2016-04-30-preview",
-      "location": "[resourceGroup().location]",
-      "copy": {
-        "name": "extDockerLoop",
-        "count": "[parameters('numberOfInstances')]"
-      },
-      "dependsOn": [
-        "virtualMachineLoop"
-      ],
-      "properties": {
-        "publisher": "Microsoft.Azure.Extensions",
-        "type": "DockerExtension",
-        "typeHandlerVersion": "1.0",
-        "autoUpgradeMinorVersion": true,
-        "settings": {}
-      }
     }
   ],
   "outputs": {
