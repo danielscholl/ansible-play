@@ -8,6 +8,12 @@
         "description": "Subnet ID to associate VM to."
       }
     },
+    "nsgId": {
+      "type": "string",
+      "metadata": {
+        "description": "Network Security Group allowing Remote Access"
+      }
+    },
     "storageAccount": {
       "type": "string",
       "metadata": {
@@ -90,12 +96,34 @@
       }
     },
     {
+      "comments": "## Public IP Address ##",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[concat(parameters('vmName'), copyindex(), '-ip')]",
+      "apiVersion": "2015-06-15",
+      "location": "[resourceGroup().location]",
+      "tags": {
+        "displayName": "Public IP Address"
+      },
+      "copy": {
+        "name": "ipLoop",
+        "count": "[parameters('numberOfInstances')]"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      }
+    },
+    {
       "comments": "## Network Interface ##",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[concat(parameters('vmName'), copyindex(), '-nic')]",
       "apiVersion": "2016-03-30",
       "location": "[resourceGroup().location]",
-      "tags": {},
+      "tags": {
+        "displayName": "Network Interface"
+      },
+      "dependsOn": [
+        "ipLoop"
+      ],
       "copy": {
         "name": "nicLoop",
         "count": "[parameters('numberOfInstances')]"
@@ -106,17 +134,18 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', concat(parameters('vmName'), copyindex(), '-ip'))]"
+              },
               "subnet": {
                 "id": "[parameters('subnetId')]"
-              },
-              "loadBalancerBackendAddressPools": [
-                {
-                  "id": "[concat(parameters('loadbalancerId'), '/backendAddressPools/lbBackEnd')]"
-                }
-              ]
+              }
             }
           }
-        ]
+        ],
+        "networkSecurityGroup": {
+          "id": "[parameters('nsgId')]"
+        }
       }
     },
     {

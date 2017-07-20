@@ -70,12 +70,40 @@
       "metadata": {
         "description": "Number of machines to deploy."
       },
-      "defaultValue": 2,
-      "minValue": 2
+      "defaultValue": 2
+    },
+    "storageAccountType": {
+      "type": "string",
+      "metadata": {
+        "description": "Account type, premium vs standard, and local, global redundancy"
+      },
+      "defaultValue": "Standard_LRS",
+      "allowedValues": [
+        "Standard_LRS",
+        "Standard_GRS",
+        "Premium_LRS"
+      ]
     }
   },
   "variables": {},
   "resources": [
+    {
+      "name": "TemplateStorage",
+      "type": "Microsoft.Resources/deployments",
+      "apiVersion": "2015-01-01",
+      "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[concat('https://raw.githubusercontent.com/danielscholl/danielscholl/ansible-play/arm-templates/', 'deployStorageAccount.json')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "storageAccountType": {
+            "value": "[parameters('storageAccountType')]"
+          }
+        }
+      }
+    },
     {
       "name": "TemplateKeyVault",
       "type": "Microsoft.Resources/deployments",
@@ -141,6 +169,9 @@
         "parameters": {
           "subnetId": {
             "value": "[reference('TemplateVNet').outputs.subnets.value.subnet2Id]"
+          },
+          "nsgId": {
+            "value": "[reference('TemplateVNet').outputs.securityGroups.value.remoteAccessId]"
           },
           "storageAccount": {
             "value": "[reference('TemplateStorage').outputs.storageAccount.value.name]"
