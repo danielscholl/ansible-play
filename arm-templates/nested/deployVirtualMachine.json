@@ -128,10 +128,7 @@
               }
             }
           }
-        ],
-        "networkSecurityGroup": {
-          "id": "[parameters('nsgId')]"
-        }
+        ]
       }
     },
     {

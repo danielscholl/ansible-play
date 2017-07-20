@@ -36,9 +36,7 @@
     "Subnet1Name": "subnet",
     "SubNet1Id": "[concat(variables('VNetId'), '/subnets/', variables('Subnet1Name'))]",
     "Nsg1Name": "[concat(variables('Subnet1Name'), '-nsg')]",
-    "Nsg1Id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('Nsg2Name'))]",
-    "Nsg2Name": "remoteAccess-nsg",
-    "Nsg2Id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('Nsg2Name'))]"
+    "Nsg1Id": "[resourceId('Microsoft.Network/networkSecurityGroups', variables('Nsg1Name'))]"
   },
   "resources": [
     {
@@ -49,19 +47,6 @@
       "location": "[resourceGroup().location]",
       "tags": {
         "displayName": "Network Security Group - Subnet"
-      },
-      "properties": {
-        "securityRules": []
-      }
-    },
-    {
-      "comments": "## Network Security Group ##",
-      "name": "[variables('nsg2Name')]",
-      "type": "Microsoft.Network/networkSecurityGroups",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]",
-      "tags": {
-        "displayName": "Network Security Group - Remote Access"
       },
       "properties": {
         "securityRules": [
@@ -132,7 +117,7 @@
     "securityGroups": {
       "type": "object",
       "value": {
-        "remoteAccessId": "[variables('Nsg2Id')]"
+        "networkSecurityId": "[variables('Nsg1Id')]"
       }
     }
   }

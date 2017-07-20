@@ -3,7 +3,7 @@
 #
 #  Purpose: Initialize an Azure Virtual Machine for Ansible Play
 #  Usage:
-#    init.sh <unique>
+#    init.sh <unique> <server_count>
 
 
 ###############################
@@ -26,6 +26,10 @@ if [ -z ${AZURE_LOCATION} ]; then
   exit 1;
 fi
 
+if [ ! -z $2 ]; then COUNT=$2; fi
+if [ -z $COUNT ]; then
+  COUNT=1
+fi
 
 ###############################
 ## Azure Intialize           ##
@@ -44,28 +48,36 @@ tput setaf 2; echo "Creating the $RESOURCE_GROUP resource group..." ; tput sgr0
 CreateResourceGroup ${RESOURCE_GROUP} ${AZURE_LOCATION};
 az group show --name ${RESOURCE_GROUP} -ojsonc
 
-tput setaf 2; echo "Creating the ${UNIQUE} virtual machine..." ; tput sgr0
-CreateVirtualMachine ${UNIQUE} ${RESOURCE_GROUP}
-az vm show --name ${UNIQUE} --resource-group ${RESOURCE_GROUP} -ojsonc
+# tput setaf 2; echo "Creating the ${UNIQUE} virtual machine..." ; tput sgr0
+# CreateVirtualMachine ${UNIQUE} ${RESOURCE_GROUP}
+# az vm show --name ${UNIQUE} --resource-group ${RESOURCE_GROUP} -ojsonc
+
+tput setaf 2; echo "Deploying Template..." ; tput sgr0
+az group deployment create \
+  --resource-group ${RESOURCE_GROUP} \
+  --template-file arm-templates/deployAzure.json \
+  --parameters @arm-templates/deployAzure.params.json \
+  --parameters unique=${UNIQUE} serverCount=${COUNT} \
+  -ojsonc
 
 
 ##############################
 ## Create Ansible Inventory ##
 ##############################
-HOST=jumpserver
 INVENTORY="./ansible/inventories/azure/"
 mkdir -p ${INVENTORY};
 
 
-tput setaf 2; echo "'Retrieving IP Address for' ${HOST}..." ; tput sgr0
+tput setaf 2; echo "Retrieving IP Address ..." ; tput sgr0
+
 IP=$(az vm list-ip-addresses --name ${UNIQUE} \
     --resource-group ${RESOURCE_GROUP}  \
     --query [].virtualMachine.network.publicIpAddresses[].ipAddress -otsv)
 echo ${IP}
 tput setaf 2; echo 'Creating the ansible inventory files...' ; tput sgr0
 cat > ${INVENTORY}/hosts << EOF
-[jumpserver]
-${IP}
+[default]
+$(az network public-ip list --resource-group ${RESOURCE_GROUP} --query [].ipAddress -otsv)
 EOF
 
 tput setaf 2; echo 'Creating the ansible config file...' ; tput sgr0
