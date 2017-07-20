@@ -29,9 +29,8 @@
     "numberOfInstances": {
       "type": "int",
       "metadata": {
-        "description": "Number of VMs to deploy, limit 5 since this sample is using a single storage account"
+        "description": "Number of VMs to deploy"
       },
-      "comment": "Removed the limitation for SLA on availability set",
       "defaultValue": 1
     },
     "vmName": {
@@ -82,18 +81,6 @@
     "sshKeyPath": "[concat('/home/',parameters('adminUserName'),'/.ssh/authorized_keys')]"
   },
   "resources": [
-    {
-      "comments": "## Availability Set ##",
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[variables('AvailabilitySetName')]",
-      "apiVersion": "2016-04-30-preview",
-      "location": "[resourceGroup().location]",
-      "properties": {
-        "platformUpdateDomainCount": 5,
-        "platformFaultDomainCount": 2,
-        "managed": true
-      }
-    },
     {
       "comments": "## Public IP Address ##",
       "type": "Microsoft.Network/publicIPAddresses",
@@ -161,9 +148,6 @@
         "nicLoop"
       ],
       "properties": {
-        "availabilitySet": {
-          "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
-        },
         "hardwareProfile": {
           "vmSize": "[parameters('vmSize')]"
         },

@@ -70,7 +70,7 @@
       "metadata": {
         "description": "Number of machines to deploy."
       },
-      "defaultValue": 2
+      "defaultValue": 1
     },
     "storageAccountType": {
       "type": "string",
