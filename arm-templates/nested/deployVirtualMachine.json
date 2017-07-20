@@ -8,12 +8,6 @@
         "description": "Subnet ID to associate VM to."
       }
     },
-    "nsgId": {
-      "type": "string",
-      "metadata": {
-        "description": "Network Security Group allowing Remote Access"
-      }
-    },
     "storageAccount": {
       "type": "string",
       "metadata": {

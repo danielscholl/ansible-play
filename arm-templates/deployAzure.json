@@ -170,9 +170,6 @@
           "subnetId": {
             "value": "[reference('TemplateVNet').outputs.subnets.value.subnet1Id]"
           },
-          "nsgId": {
-            "value": "[reference('TemplateVNet').outputs.securityGroups.value.remoteAccessId]"
-          },
           "storageAccount": {
             "value": "[reference('TemplateStorage').outputs.storageAccount.value.name]"
           },
