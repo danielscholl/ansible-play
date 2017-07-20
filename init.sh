@@ -53,7 +53,9 @@ az vm show --name ${UNIQUE} --resource-group ${RESOURCE_GROUP} -ojsonc
 ## Create Ansible Inventory ##
 ##############################
 HOST=jumpserver
-INVENTORY_FILE="ansible/inventories/azure/hosts"
+INVENTORY="./ansible/inventories/azure/"
+mkdir -p ${INVENTORY};
+
 
 tput setaf 2; echo "'Retrieving IP Address for' ${HOST}..." ; tput sgr0
 IP=$(az vm list-ip-addresses --name ${UNIQUE} \
@@ -61,7 +63,7 @@ IP=$(az vm list-ip-addresses --name ${UNIQUE} \
     --query [].virtualMachine.network.publicIpAddresses[].ipAddress -otsv)
 echo ${IP}
 tput setaf 2; echo 'Creating the ansible inventory files...' ; tput sgr0
-cat > ${INVENTORY_FILE} << EOF
+cat > ${INVENTORY}/hosts << EOF
 [jumpserver]
 ${IP}
 EOF
@@ -69,7 +71,7 @@ EOF
 tput setaf 2; echo 'Creating the ansible config file...' ; tput sgr0
 cat > ansible.cfg << EOF1
 [defaults]
-inventory = ${INVENTORY_FILE}
+inventory = ${INVENTORY}/hosts
 private_key_file = ~/.ssh/id_rsa
 host_key_checking = false
 EOF1
