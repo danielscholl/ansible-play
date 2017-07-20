@@ -3,3 +3,4 @@ ansible.cfg
 ansible/inventories/**/hosts
 ubuntu-xenial*
 ansible/*.retry
+arm-templates/*.params.json
