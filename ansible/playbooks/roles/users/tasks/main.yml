@@ -5,6 +5,6 @@
   user: name=johndoe shell=/bin/bash group=developers
 
 - name: Add Authorized Key
-  authorized_key: user=irvui key="{{ item }}"
+  authorized_key: user=johndoe key="{{ item }}"
   with_file:
-    - public_keys/irvui
+    - files/id_rsa_johndoe.pub

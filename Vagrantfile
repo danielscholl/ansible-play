@@ -11,10 +11,11 @@ settings = YAML.load_file 'vagrant.yml'
 
 Vagrant.configure("2") do |config|
 
+  ansible_inventory_dir = "ansible/inventories/vagrant"
+
   # setup the ansible inventory file
-  ansible_inventory_dir = "ansible/hosts"
   Dir.mkdir(ansible_inventory_dir) unless Dir.exist?(ansible_inventory_dir)
-  File.open("#{ansible_inventory_dir}/vagrant" ,'w') do |f|
+  File.open("#{ansible_inventory_dir}/hosts" ,'w') do |f|
     f.write "[#{settings['vm_name']}]\n"
     f.write "#{settings['ip_address']} "
     f.write "ansible_python_interpreter=/usr/bin/python3\n"
@@ -23,7 +24,7 @@ Vagrant.configure("2") do |config|
   # setup the ansible cfg file
   File.open("ansible.cfg" ,'w') do |f|
     f.write "[defaults]\n"
-    f.write "inventory = #{ansible_inventory_dir}/vagrant\n"
+    f.write "inventory = #{ansible_inventory_dir}/hosts\n"
     f.write "private_key_file = ~/ansible/.vagrant/machines/default/virtualbox/private_key\n"
     f.write "host_key_checking = false\n"
     f.write "remote_user = ubuntu\n"
@@ -37,8 +38,8 @@ Vagrant.configure("2") do |config|
 
   config.vm.provision "ansible" do |ansible|
     #ansible.verbose = "v"
-    ansible.playbook = "ansible/playbook.yml"
-    ansible.inventory_path = "#{ansible_inventory_dir}/vagrant"
+    ansible.playbook = "ansible/playbooks/initServer.yml"
+    ansible.inventory_path = "#{ansible_inventory_dir}/hosts"
     ansible.limit = 'all'
     ansible.extra_vars = {
       private_interface: "192.168.33.66",

@@ -53,7 +53,7 @@ az vm show --name ${UNIQUE} --resource-group ${RESOURCE_GROUP} -ojsonc
 ## Create Ansible Inventory ##
 ##############################
 HOST=jumpserver
-INVENTORY_FILE="ansible/hosts/azure"
+INVENTORY_FILE="ansible/inventories/azure/hosts"
 
 tput setaf 2; echo "'Retrieving IP Address for' ${HOST}..." ; tput sgr0
 IP=$(az vm list-ip-addresses --name ${UNIQUE} \
@@ -78,4 +78,4 @@ EOF1
 ## Run Ansible Playbook ##
 ##########################
 sleep 5
-ansible-playbook -i ${INVENTORY_FILE} ansible/playbook.yml
+ansible-playbook ansible/playbooks/initServer.yml

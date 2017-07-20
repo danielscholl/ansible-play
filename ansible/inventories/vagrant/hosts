@@ -1,0 +1,2 @@
+[jumpserver]
+192.168.33.66 ansible_python_interpreter=/usr/bin/python3
