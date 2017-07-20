@@ -58,3 +58,12 @@ $ ./clean.sh <unique>
 ```
 
 
+## Notes to Remember
+
+### Use JQ to retrieve information such as Environment Variables
+
+```bash
+$ ansible jumpserver -m setup   | sed 's/.*|.*=>.*/{/g' |jq .ansible_facts.ansible_env
+```
+
+

@@ -1,0 +1,10 @@
+- name: Create Developer Group
+  group: name=developers state=present
+
+- name: Create User
+  user: name=johndoe shell=/bin/bash group=developers
+
+- name: Add Authorized Key
+  authorized_key: user=irvui key="{{ item }}"
+  with_file:
+    - public_keys/irvui

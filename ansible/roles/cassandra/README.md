@@ -1,10 +1,18 @@
-Role Name
-=========
+# Cassandra
 
-Ansible role to install cassandra cluster for MidoNet 
+This role installs a Cassandra Server.
 
-Role Variables
---------------
+>__THIS ROLE IS UNDER DEVELOPMENT__
+
+## Requirements
+
+This role has no specific requirements
+
+## Task Items
+
+1. Install the latest patches to a server followed by a reboot
+
+## Role Variables
 
 `cassandra` dictionary or group in hosts inventory. See example:
 
@@ -13,20 +21,20 @@ Role Variables
     cs2.midoexample.net
     cs3.midoexample.net
 
-Example Playbook
-----------------
 
-    hosts: cassandra
+## Examples
+
+1. Initialize a box
+
+```yaml
+hosts: cassandra
       roles:
         - role: ansible-cassandra
           cassandra_hosts: '{{ groups["cassandra"] }}'
+```
 
-License
--------
+## Dependencies
 
-Apache 2.0
+None
 
-Author Information
-------------------
 
-Abel Boldú < abel.boldu@gmx.com >
