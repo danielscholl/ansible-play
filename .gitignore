@@ -1,5 +1,5 @@
 .vagrant
 ansible.cfg
-ansible/hosts/
+ansible/inventories/**/hosts
 ubuntu-xenial*
 ansible/*.retry
