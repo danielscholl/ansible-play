@@ -16,8 +16,9 @@
     }
   },
   "variables": {
-    "cleanResourceGroup": "[substring(toLower(replace(resourceGroup().name,'-', '')), 0, 5)]",
-    "storageAccountName": "[concat(variables('cleanResourceGroup'), uniqueString(resourceGroup().id))]",
+    "cleanResourceGroup": "[toLower(replace(resourceGroup().name,'-', ''))]",
+    "trimmedName": "[substring(variables('cleanResourceGroup'),0, 5)]",
+    "storageAccountName": "[concat(variables('trimmedName'), uniqueString(resourceGroup().id))]",
     "storageId": "[resourceId('Microsoft.Storage/storageAccounts', variables('storageAccountName'))]"
   },
   "resources": [
