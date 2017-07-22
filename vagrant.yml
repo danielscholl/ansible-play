@@ -1,4 +1,5 @@
 ---
-ip_address: 192.168.33.66
-vm_name: jumpserver
-server_domain: jumpserver.dev
+ip_address: 127.0.0.1
+ip_port: 2222
+vm_name: cassandra
+server_domain: cassandra.dev

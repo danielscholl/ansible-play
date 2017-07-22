@@ -1,4 +1,88 @@
 ---
+- hosts: all
+  gather_facts: no
+
+  vars:
+    # Docker Setup Information
+    docker_apt_key_url: https://download.docker.com/linux/ubuntu/gpg
+    docker_apt_key_sig: 0EBFCD88
+    docker_apt_repository: deb https://download.docker.com/linux/ubuntu {{ ansible_distribution_release }} stable
+
+    # Azure Setup Information
+    azure_apt_key_server: packages.microsoft.com
+    azure_apt_key_sig: 417A0893
+    azure_apt_repository: deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ wheezy main
+
+    # Docker Compose Setup Information
+    python_pip_version: 9.0.1
+    docker_compose_version: 1.14.0
+
+  tasks:
+    - name: Set UName Property
+      shell: uname -r
+      ignore_errors: yes
+      register: uname_result
+    - debug: msg="{{ uname_result.stdout }}"
+
+    - name: Set Current User
+      shell: whoami
+      register: user
+    - debug: msg="{{ user.stdout }} "
+
+    - name: Add Docker repository key
+      become: yes
+      apt_key:
+        id: "{{ docker_apt_key_sig }}"
+        url: "{{ docker_apt_key_url }}"
+        state: present
+
+    - name: Add Docker repository key
+      become: yes
+      apt_key:
+        id: "{{ docker_apt_key_sig }}"
+        url: "{{ docker_apt_key_url }}"
+        state: present
+
+    - name: Add Docker repository and update apt cache
+      become: yes
+      apt_repository:
+        repo: "{{ docker_apt_repository }}"
+        update_cache: yes
+        state: present
+
+    - name: Install System Packages
+      become: yes
+      apt: pkg={{ item }} state=latest update_cache=yes
+      with_items:
+        - linux-image-extra-{{ uname_result.stdout }}
+        - linux-image-extra-virtual
+        - docker-ce
+        - python-dev
+        - python-pip
+
+    - name: Start Docker Service
+      become: yes
+      service:
+        name: docker
+        state: started
+
+    # ATTENTION: this task can potentially create new users!
+    - name: Add current user to the docker group
+      become: yes
+      user:
+        name: "{{ user.stdout }}"
+        groups: docker
+        append: yes
+
+    - name: Upgrade latest pip and docker-compose with pip
+      pip:
+        name: "{{ item.name }}"
+        state: latest
+      with_items:
+        - { name: pip, version: "{{ python_pip_version }}" }
+        - { name: docker-compose, version: "{{ docker_compose_version }}"}
+      when: item.version=="latest"
+
 # determine the status of each manager node and break them
 # into two groups:
 #   - swarm_manager_operational (swarm is running and active)

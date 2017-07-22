@@ -8,7 +8,7 @@
 ###############################
 ## ARGUMENT INPUT            ##
 ###############################
-usage() { echo "Usage: connect.sh <unique>" 1>&2; exit 1; }
+usage() { echo "Usage: connect.sh <unique> <instance>" 1>&2; exit 1; }
 
 if [ -f ~/.azure/.env ]; then source ~/.azure/.env; fi
 if [ -f ./.env ]; then source ./.env; fi
@@ -23,13 +23,16 @@ if [ -z ${AZURE_LOCATION} ]; then
   tput setaf 1; echo 'ERROR: Global Variable AZURE_LOCATION not set'; tput sgr0
   exit 1;
 fi
+if [ ! -z $2 ]; then INSTANCE=$2; fi
+if [ -z $INSTANCE ]; then
+  INSTANCE=0
+fi
 
 #////////////////////////////////
 CATEGORY=${PWD##*/}
 RESOURCE_GROUP=${UNIQUE}-${CATEGORY}
-echo 'Retrieving IP Address for' ${RESOURCE_GROUP}
-
-IP=$(az vm list-ip-addresses -g ${RESOURCE_GROUP} -n ${UNIQUE} --query [].virtualMachine.network.publicIpAddresses[].ipAddress -o tsv)
+echo "Retrieving IP Address for ${UNIQUE}${INSTANCE} in " ${RESOURCE_GROUP}
+IP=$(az vm list-ip-addresses -g ${RESOURCE_GROUP} -n ${UNIQUE}${INSTANCE} --query [].virtualMachine.network.publicIpAddresses[].ipAddress -o tsv)
 
 echo 'Connecting to' $USER@$IP
 

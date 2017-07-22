@@ -1,0 +1,13 @@
+---
+- hosts: cassandra
+  become: yes
+
+  vars:
+    cassandra_version: 3.6.0
+    cassandra_cluster_name: cassCluster
+    cassandra_seeds: [ "{{ ansible_default_ipv4.address }}" ]  			# List of IP Addresses ONLY
+    cassandra_listen_address: "{{ ansible_default_ipv4.address }}"
+    cassandra_rpc_address: "{{ ansible_default_ipv4.address }}"
+
+  roles:
+    - cassandra
