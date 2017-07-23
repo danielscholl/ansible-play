@@ -58,6 +58,16 @@ $ ./clean.sh <unique>
 ```
 
 
+## Example Activities
+
+### Build a Swarm Cluster with 3 manager nodes and 3 worker nodes
+
+```bash
+$ ./init.sh <unique> 6
+$ ansible-playbook ./ansible/playbooks/swarmCluster.yml
+```
+
+
 ## Notes to Remember
 
 ### Use JQ to quickly retrieve ansible variables
