@@ -13,4 +13,4 @@
 - name: Setup Ansible
   copy: src={{ item.src }} dest={{ item.dest }}
   with_items:
-    - { src: 'ansible.cfg', dest: '~/ansible.cfg' }
+    - { src: 'files/ansible.cfg', dest: '~/ansible.cfg' }
