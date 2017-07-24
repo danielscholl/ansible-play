@@ -76,7 +76,7 @@ IP=$(az vm list-ip-addresses --name ${UNIQUE} \
 echo ${IP}
 tput setaf 2; echo 'Creating the ansible inventory files...' ; tput sgr0
 cat > ${INVENTORY}/hosts << EOF
-[default]
+[all]
 $(az network public-ip list --resource-group ${RESOURCE_GROUP} --query [].ipAddress -otsv)
 EOF
 
