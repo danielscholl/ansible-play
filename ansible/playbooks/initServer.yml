@@ -2,6 +2,8 @@
 # Playbook: Patch OS and Reboot
 
 - hosts: all
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
   name: Install Operating System Patches
   become: yes
 
