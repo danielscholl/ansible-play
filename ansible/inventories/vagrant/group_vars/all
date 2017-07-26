@@ -1,0 +1,9 @@
+# The global variable file rexray installation
+azure_subscriptionid: '587fe9d7-7309-4503-bc68-b35528a3217a'
+azure_tenantid: '5cc80b30-6dfd-4dc3-bbce-aca1faf46c4d'
+azure_clientid: '881beeee-375d-4e39-a8b9-01691d20649b'
+azure_clientsecret: 'PP3b3FEK1BCVZCvF+40C94VL17HaEgQ1p5K/bXpkMR4='
+azure_resourcegroup: 'vm-ansible-play'
+azure_storageaccount: 'vmansovbldisfbeefw'
+azure_storageaccesskey: '5EOP3hHJ+kVJYr2SG+X9qU3HNhR+sUeo/icDYEogDFpqurQO+cmQsNuUwcJ9FOl7rIuBhtrAlrkB4hJ9IdRiEQ=='
+azure_container: 'rexray'

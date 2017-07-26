@@ -163,7 +163,7 @@
       "properties": {
         "mode": "Incremental",
         "templateLink": {
-          "uri": "[concat('https://raw.githubusercontent.com/danielscholl/ansible-play/master/arm-templates/nested/', 'deployVirtualMachineAV.json')]",
+          "uri": "[concat('https://raw.githubusercontent.com/danielscholl/ansible-play/master/arm-templates/nested/', 'deployVirtualMachine.json')]",
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
