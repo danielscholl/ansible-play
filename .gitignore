@@ -2,6 +2,6 @@
 ansible.cfg
 ansible/inventories/
 ubuntu-xenial*
-ansible/*.retry
+ansible/playbooks/*.retry
 arm-templates/*.params.json
 wunzeco.*

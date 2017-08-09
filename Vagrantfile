@@ -16,6 +16,8 @@ Vagrant.configure("2") do |config|
      vb.customize [ "modifyvm", :id, "--uartmode1", "disconnected" ]
   end
 
+  config.vm.network "private_network", type: "dhcp"
+
   nodes = count.to_i
   (1..nodes).each do |i|
     config.vm.define "#{unique}#{i}" do |node|

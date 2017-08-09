@@ -3,20 +3,58 @@
 This repository is to be used for playing with and creating Ansible Playbooks.
 
 
-## Vagrant Instructions
+## Localhost Instructions
 
-Vagrant up will initialize a ubuntu server with up to date patches and ready for ansible commands.
+Vagrant is used on the localhost, but is wrapped in a bash script abstraction layer to automatically create the inventory files and modify the ansible.cfg as necessary.
+
+- ./initlocal.sh <unique> <count>
+  - Create the Vagrant Machines requested
+  - Provision the Machine with the default playbook _./ansible/playbooks/initServer.yml_
+  - Create an inventory file ./ansible/inventories/vagrant/hosts
+
+The vagrantfile requires unique and count to be passed as environment variables.
+
 
 ```bash
-$ vagrant up
+$ ./initlocal.sh vm 2
+$ unique=vm count=2 vagrant ssh vm2
+```
+
+### Test Ansible
+
+The init scripts automatically create the necessary ansible.cfg and inventory files.  Test the connectivity to the servers that were created.
+
+```bash
+ansible all -m ping
 ```
 
 ### Running a playbook
 
 ```bash
-$ INVENTORY_FILE="ansible/hosts/vagrant"
-$ ansible-playbook -i ${INVENTORY_FILE} ansible/<playbookname>.yml
+$ ansible-playbook ansible/<playbookname>.yml
 ```
+
+#### Install a Swarm Cluster
+
+Playbook swarmCluster installs docker and can configure servers into a swarm.
+
+To configure a swarm you must modify the inventory file and tag the servers as manager or worker.
+
+```bash
+[manager]
+vm1
+vm2
+vm3
+
+[worker]
+vm4
+vm5
+vm6
+```
+
+>NOTE: To configure a swarm on vagrant you must set the swarm interface variable to enp0s3 in vagrant/group_vars.
+swarm_iface: 'enp0s8'
+
 
 ### Connect to server
 
