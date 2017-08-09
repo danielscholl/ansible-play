@@ -1,7 +1,6 @@
 .vagrant
 ansible.cfg
-ansible/inventories/**/hosts
-ansible/inventories/group_vars/*
+ansible/inventories/
 ubuntu-xenial*
 ansible/*.retry
 arm-templates/*.params.json
