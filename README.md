@@ -114,4 +114,10 @@ $ ansible-playbook ./ansible/playbooks/swarmCluster.yml
 $ ansible jumpserver -m setup   | sed 's/.*|.*=>.*/{/g' |jq .ansible_facts.ansible_env
 ```
 
+### Initialize Virtualbox for Rexray Storage
+
+```bash
+$ VBoxManage setproperty websrvauthlibrary null
+$ vboxwebsrv -H 0.0.0.0 -v
+```
 
