@@ -1,0 +1,28 @@
+---
+
+- hosts: vagrant
+  become: yes
+  vars:
+    local_home: "{{ lookup('env','HOME') }}"
+  roles:
+  - { role: rexray,
+      rexray_storage_drivers: [virtualbox],
+      rexray_vbox_endpoint: "http://10.0.2.2:18083",
+      rexray_vbox_controller_name: SATA,
+      rexray_vbox_volume_path: '"{{ inventory_dir }}/../../../Volumes"' }
+
+- hosts: azure
+  become: yes
+  roles:
+  - { role: rexray,
+      rexray_service: true,
+      rexray_log_level: warn,
+      rexray_storage_drivers: [azureud],
+      rexray_azure_subscriptionid: '{{ azure_subscriptionid }}',
+      rexray_azure_tenantid: '{{ azure_tenantid }}',
+      rexray_azure_clientid: '{{ azure_clientid }}',
+      rexray_azure_clientsecret: '{{ azure_clientsecret }}',
+      rexray_azure_resourcegroup: '{{ azure_resourcegroup }}',
+      rexray_azure_storageaccount: '{{ azure_storageaccount }}',
+      rexray_azure_storageaccesskey: '{{ azure_storageaccesskey }}',
+      rexray_azure_container: '{{ azure_container }}' }
