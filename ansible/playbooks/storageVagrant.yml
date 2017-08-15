@@ -1,0 +1,9 @@
+---
+
+- hosts: all
+  become: yes
+  roles:
+  - { role: rexray,
+      rexray_storage_drivers: [virtualbox],
+      rexray_vbox_volume_path: '"{{ playbook_dir }}/../../Volumes"',
+      rexray_vbox_endpoint: "http://10.0.2.2:18083" }

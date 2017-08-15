@@ -105,6 +105,16 @@ $ ./init.sh <unique> 6
 $ ansible-playbook ./ansible/playbooks/swarmCluster.yml
 ```
 
+### Configure Persistant Storage
+
+```bash
+$ vboxwebsrv -H 0.0.0.0 -v >/dev/null 2>&1 &
+$ ansible-playbook ./ansible/playbooks/storageVagrant.yml
+
+# When done bring back the task and kill it
+$ fg
+```
+
 
 ## Notes to Remember
 

@@ -5,3 +5,4 @@ ubuntu-xenial*
 ansible/playbooks/*.retry
 arm-templates/*.params.json
 wunzeco.*
+Volumes/
