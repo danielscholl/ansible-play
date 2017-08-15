@@ -4,12 +4,13 @@
   become: yes
   vars:
     local_home: "{{ lookup('env','HOME') }}"
+    swarm_iface: 'enp0s8'
   roles:
   - { role: rexray,
       rexray_storage_drivers: [virtualbox],
       rexray_vbox_endpoint: "http://10.0.2.2:18083",
       rexray_vbox_controller_name: SATA,
-      rexray_vbox_volume_path: '"{{ inventory_dir }}/../../../Volumes"' }
+      rexray_vbox_volume_path: '"{{ playbook_dir }}/../../../Volumes"' }
 
 - hosts: azure
   become: yes
